@@ -31,6 +31,7 @@
     "webpack-dev-server": "^4.10.0"
   },
   "dependencies": {
+    "@babel/core": "^7.22.17",
     "three": "^0.143.0"
   }
 }

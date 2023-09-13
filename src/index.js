@@ -137,17 +137,18 @@ const createMeshFromFile = (geometry) => {
  * @param {Number} offset The offset passed
  */
 const applyOffset = async (meshToOffset, offset) => {
+  if (!(meshToOffset.geometry instanceof THREE.BufferGeometry)) {
+    return;
+  }
+
   console.time();
 
-  // 1. Export mesh as an ascii file
-  const exporter = new STLExporter();
-  const result = exporter.parse(meshToOffset, { binary: false });
+  const position = meshToOffset.geometry.attributes['position'].array;
+  const normal = meshToOffset.geometry.attributes['normal'].array;
 
-  // 2. Creates mesh with offset
-  const object = createOffsetMesh(result, offset);
-  const meshOffset = await createMeshFromObject(object);
-
-  meshOffset.name = "offset";
+  const object = createOffsetMesh(position, normal, offset);
+  const meshOffset = createMeshFromObject(object);
+  meshOffset.name = 'offset';
 
   console.timeEnd();
 
